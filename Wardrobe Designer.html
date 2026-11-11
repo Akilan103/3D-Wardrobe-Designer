@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Atelier Robes – Wardrobe Designer</title>
+<style>
+:root{--p:#fff;--ink:#111;--mut:#6b6b6b;--ln:#e5e5e5;--c2:#f4f4f2;--btn:#111;--onbtn:#fff;--err:#b3261e;--errbg:#fce8e6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--p:#161616;--ink:#f2f2f2;--mut:#9a9a9a;--ln:#2e2e2e;--c2:#1f1f1f;--btn:#f2f2f2;--onbtn:#111;--errbg:#2c1513;--err:#f2b8b5}}
+:root[data-theme="dark"]{--p:#161616;--ink:#f2f2f2;--mut:#9a9a9a;--ln:#2e2e2e;--c2:#1f1f1f;--btn:#f2f2f2;--onbtn:#111;--errbg:#2c1513;--err:#f2b8b5}
+*{box-sizing:border-box}html,body{height:100%;margin:0;background:#000}
+body{font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink)}
+button{font:inherit;color:inherit;cursor:pointer}
+#app{height:100%;display:grid;grid-template-columns:380px 1fr}
+aside{padding:24px;overflow:auto;color:#fff}
+.card{background:#0e0e0e;border:1px solid #262626;border-radius:20px;padding:18px;margin-bottom:18px}
+.card h4{margin:0 0 12px;font-size:12px;letter-spacing:.2em;color:#cfcfcf;font-weight:600}
+.st{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:#161616;color:#fff;border:1px solid #262626;border-radius:14px;padding:12px;margin-bottom:8px}
+.st.on{background:#232323}.st.lock{opacity:.45;cursor:default}.st b{display:block;font-weight:600}.st small{letter-spacing:.14em;font-size:11px;color:#9a9a9a}
+.ci{flex:none;width:32px;height:32px;border-radius:50%;background:#2a2a2a;display:grid;place-items:center;font-size:13px}.st.on .ci{background:#fff;color:#000}
+#est{text-align:center;color:#fff}#est small{display:block;color:#aaa}.eic{width:40px;height:40px;margin:0 auto 10px;border:1px solid #333;border-radius:10px;display:grid;place-items:center}.big{font-size:30px;margin:4px 0}
+main{background:var(--p);overflow:auto;padding:28px 36px 48px}
+.pill0{display:inline-block;border:1px solid var(--ln);border-radius:99px;padding:1px 14px;font-size:11px;letter-spacing:.2em;color:var(--mut)}
+h1{font-weight:400;font-size:34px;letter-spacing:.01em;margin:8px 0 6px}.sub{color:var(--mut);max-width:720px;margin:0 0 18px}
+#errbox:not(:empty){border:2px solid var(--err);background:var(--errbg);color:var(--err);border-radius:16px;padding:14px 18px;margin-bottom:16px}
+#errbox p{margin:6px 0 0;color:var(--ink)}
+h3{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin:22px 0 8px;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.opt{text-align:left;background:var(--p);border:1.5px solid var(--ln);border-radius:14px;padding:12px}.opt:hover{border-color:var(--ink)}.opt.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset}
+.opt i{display:block;height:28px;border-radius:8px;margin-bottom:6px;background:var(--sw);border:1px solid var(--ln)}.opt small{display:block;color:var(--mut)}
+.btn{background:var(--btn);color:var(--onbtn);border:1.5px solid var(--btn);border-radius:99px;padding:10px 22px}.btn.gh{background:none;color:var(--ink);border-color:var(--ln)}.btn:disabled{opacity:.4}
+.nav{display:flex;gap:10px;justify-content:space-between;margin-top:28px}
+.mini{background:var(--c2);border:1px solid var(--ln);border-radius:99px;padding:4px 12px;font-size:13px}.mini.dk{background:#111;color:#fff;border-color:#111}
+.sl{display:grid;grid-template-columns:1fr auto;gap:2px 10px;margin:14px 0;max-width:520px}.sl input{grid-column:1/3;accent-color:var(--ink)}
+.sl2{display:flex;justify-content:space-between;align-items:center;margin:10px 0;max-width:520px}.sl2 b{display:inline-block;min-width:32px;text-align:center}
+input.tx{width:100%;max-width:520px;display:block;margin:6px 0 14px;padding:10px 12px;border:1.5px solid var(--ln);border-radius:12px;background:var(--p);color:var(--ink);font:inherit}
+.note{color:var(--mut);font-size:13px}
+.pl{background:var(--c2);border-radius:20px;padding:12px;margin-bottom:16px}.plh,.plf{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:11px;letter-spacing:.12em;color:var(--mut);padding:4px 8px}.plf{font-size:13px;letter-spacing:0;align-items:center}
+.stagebox{background:#000;border-radius:16px;padding:40px 20px 20px;margin:8px 0}
+.plan{position:relative;margin:0 auto;background:#f4f4f2}
+.mod{position:absolute;top:0;bottom:0;padding:0;border:0;border-right:1px solid #cfcfca;background:#ededea}.mod svg{display:block;width:100%;height:100%}
+.mod.on{box-shadow:0 0 0 2px #111 inset;z-index:2}.chk{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:#111;color:#fff;font-size:12px;display:grid;place-items:center;z-index:3}
+.wp{position:absolute;top:-28px;left:50%;transform:translateX(-50%);background:#e8e8e8;color:#111;font-size:11px;border-radius:99px;padding:1px 10px}
+.gap{position:absolute;top:0;bottom:0;border:1.5px dashed #888;background:#e6e6e3;display:grid;place-items:center}
+.plus{width:48px;height:48px;border-radius:50%;background:#111;color:#fff;border:0;font-size:30px;line-height:1}
+.ed{background:var(--p);border:1px solid var(--ln);border-radius:16px;padding:14px 18px}.edh{display:flex;justify-content:space-between;align-items:center}
+#stage{height:480px;border-radius:18px;background:radial-gradient(circle at 50% 30%,#fff,#d9d9d4);position:relative;touch-action:none;overflow:hidden}#stage canvas{display:block}
+table{width:100%;max-width:560px;border-collapse:collapse;margin:14px 0}td{padding:6px 0;border-bottom:1px solid var(--ln)}td:last-child{text-align:right;font-weight:600}
+pre{background:var(--c2);border-radius:12px;padding:12px;font-size:11px;max-height:180px;overflow:auto}
+#snap{width:100%;max-width:560px;border-radius:16px;border:1px solid var(--ln)}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:16px;z-index:9}#modal[hidden]{display:none}
+.dlg{background:var(--p);border-radius:24px;width:min(1000px,100%);max-height:100%;overflow:auto;padding:24px 28px}
+.dh{display:flex;gap:12px;align-items:flex-start}.dh>div{flex:1}.dh h2{margin:0;font-weight:400}.dh p{margin:4px 0;color:var(--mut)}
+.avail{border:1px solid var(--ln);border-radius:99px;padding:3px 14px;font-size:13px}.x{border:1px solid var(--ln);background:none;border-radius:50%;width:34px;height:34px;font-size:20px}
+.mh2{display:flex;justify-content:space-between;margin-top:20px;font-size:12px;letter-spacing:.14em;color:var(--mut)}.mh2 h5{margin:0;font-size:12px}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.mc{display:block;text-align:left;border:1.5px solid var(--ln);background:var(--p);border-radius:16px;padding:12px}.mc:hover:not(.off){border-color:var(--ink)}.mc.off{opacity:.5;cursor:default}
+.mc span,.mc em{display:block;font-size:13px;color:var(--mut);font-style:normal;margin-top:4px}.mc.off em{color:var(--err)}
+.th{height:130px;aspect-ratio:500/2200;margin:0 auto 10px;background:#ededea;display:block}.th-w{background:var(--c2);border-radius:12px;padding:8px;margin-bottom:8px}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+@media(max-width:860px){#app{grid-template-columns:1fr;grid-template-rows:auto 1fr}aside{padding:12px}#prog{display:flex;gap:8px;overflow-x:auto}.st{min-width:150px;margin:0}#est{display:none}.card{margin:0}main{padding:20px 16px 40px}h1{font-size:26px}#stage{height:340px}}
+</style>
+</head>
+<body>
+<div id="app">
+ <aside><div class="card"><h4>DESIGNER PROGRESS</h4><div id="prog"></div></div><div class="card" id="est"></div></aside>
+ <main id="main"><div id="content"></div></main>
+</div>
+<div id="modal" hidden></div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+/* ---------- Config: rebrand and add options here ---------- */
+const BRAND = 'Atelier Robes', CHECKOUT_URL = '', CUR = '$';
+const COLOURS = [['alabaster', 'Alabaster', '#f2efe9'], ['sage', 'Sage', '#9caf9a'], ['clay', 'Clay', '#c58f78'], ['sand', 'Sand', '#d8c8a8'], ['navy', 'Navy', '#2f4059'], ['graphite', 'Graphite', '#3b3f44']].map(c => ({ id: c[0], n: c[1], c: c[2] }));
+const FINISH = { matte: { r: .9, m: 0, p: 1 }, satin: { r: .5, m: .05, p: 1.04 }, gloss: { r: .15, m: .1, p: 1.1 } };
+const MODS = {
+  towerDS: { kind: 'tower', n: 'Tall tower: drawers + shelves', d: 'Bank of drawers with adjustable shelves above, up to the top shelf.', min: 400, max: 1200, start: 500, dr: 4, sh: 5, hang: 0, maxDr: 6 },
+  towerS: { kind: 'tower', n: 'Tall tower: shelves', d: 'Full-height column of adjustable shelves.', min: 400, max: 1200, start: 500, dr: 0, sh: 7, hang: 0, maxDr: 0 },
+  drawHang: { kind: 'tower', n: 'Drawers + hang', d: 'Drawers to 950mm with hanging space above.', min: 400, max: 1200, start: 500, dr: 4, sh: 0, hang: 1, maxDr: 4 },
+  shelfHang: { kind: 'tower', n: 'Shelves + hang', d: 'Shelves to 950mm with hanging space above.', min: 400, max: 1200, start: 500, dr: 0, sh: 3, hang: 1, maxDr: 0 },
+  doubleHang: { kind: 'bay', n: 'Double hang', d: 'Two hanging rails, one above the other, for shirts and folded trousers.', min: 200, max: 1200 },
+  longHang: { kind: 'bay', n: 'Long hang', d: 'Single high rail for dresses and coats.', min: 200, max: 1200 } };
+const STEPS = ['Layout', 'Dimensions', 'Finish + Doors', 'Modules', 'Preview + Quote', 'Contact Details', 'Review & Submit'];
+const TITLES = ['Choose your layout', 'Set the dimensions', 'Pick finish and doors', 'Build the layout module by module', 'Preview and quote', 'Contact details', 'Review and submit'];
+const SUBS = ['Start with the shape of the space.', 'Wall lengths, height and depth in millimetres.', 'Colour, door style, handles and sheen apply to the whole design.',
+  'Click + to add towers and hanging bays from left to right. Select a module to adjust drawers, shelves or width (Delete removes it). Fill the whole wall to unlock your estimate.',
+  'Rotate and zoom the 3D model, open the doors and check your estimate.', 'Tell us where to send your design.', 'Check everything, then submit your request.'];
+
+/* ---------- State and helpers ---------- */
+const S = { layout: 'straight', backLen: 2400, sideLen: 1800, height: 2400, depth: 580, colour: 'alabaster', doors: 'hinged', handle: 'bar', finish: 'satin',
+  walls: [{ mods: [] }, { mods: [] }], contact: { name: '', email: '', phone: '' } };
+let step = 0, reached = 0, errors = [], sel = null, snap = '', uid = 0, isOpen = false, mats = [], dirty = true;
+const $ = s => document.querySelector(s);
+const nW = () => S.layout === 'straight' ? 1 : 2, len = i => i ? S.sideLen : S.backLen, usable = i => len(i) - 64;
+const used = i => S.walls[i].mods.reduce((a, m) => a + m.w, 0), left = i => usable(i) - used(i), wallName = i => i ? 'Left wall' : 'Back wall';
+const mk = (type, w) => ({ id: ++uid, type, w, drawers: MODS[type].dr || 0, shelves: MODS[type].sh || 0 });
+const curMod = () => sel && S.walls[sel.wi].mods.find(m => m.id === sel.id);
+function issues() {
+  const e = [];
+  for (let i = 0; i < nW(); i++) { const l = left(i); if (l > 0) e.push(`${wallName(i)}: ${l} mm of the wall is still empty.`); if (l < 0) e.push(`${wallName(i)}: modules are ${-l} mm too wide.`); }
+  return e;
+}
+/* Shared geometry: where drawers, shelves and rails sit inside a module (mm from the inside floor) */
+function parts(m, ih) {
+  const d = MODS[m.type], r = { dr: [], sh: [], ra: [] };
+  for (let i = 0; i < m.drawers; i++) r.dr.push({ y: i * 190, h: 186 });
+  if (d.kind === 'bay') { r.ra = m.type === 'doubleHang' ? [ih - 250, ih * .5] : [ih - 250]; return r; }
+  const dh = m.drawers * 190, top = d.hang ? Math.max(950, dh + 120) : ih;
+  for (let i = 1; i <= m.shelves; i++) r.sh.push(dh + (top - dh) * i / (m.shelves + 1));
+  if (d.hang) { r.sh.push(top); r.ra.push(ih - 250); }
+  return r;
+}
+const modPrice = m => { const d = MODS[m.type]; return Math.round(d.kind === 'tower' ? 260 + m.w * .3 + m.drawers * 95 + m.shelves * 22 : 110 + m.w * .28); };
+function quote() {
+  let mods = 0, doors = 0;
+  for (let i = 0; i < nW(); i++) { S.walls[i].mods.forEach(m => mods += modPrice(m)); doors += S.doors === 'none' ? 0 : usable(i) * S.height / 1e6 * (S.doors === 'sliding' ? 240 : 190); }
+  return { modules: mods, doors: Math.round(doors), install: 450, total: Math.round((mods + doors) * FINISH[S.finish].p + 450) };
+}
+function stretch(i) {
+  let l = left(i); const bays = S.walls[i].mods.filter(m => MODS[m.type].kind === 'bay'); let ok = false;
+  for (let p = 0; p < 6 && l > 0; p++) { const o = bays.filter(m => m.w < 1200); if (!o.length) break; const add = Math.ceil(l / o.length); o.forEach(m => { const a = Math.min(add, 1200 - m.w, l); m.w += a; l -= a; ok = true; }); }
+  return ok;
+}
+function autofill(i) {
+  const l = usable(i) - 500, n = Math.max(1, Math.ceil(l / 1200)), b = Math.floor(l / n), ms = [mk('towerDS', 500)];
+  for (let k = 0; k < n; k++) ms.push(mk(k % 2 ? 'longHang' : 'doubleHang', k === n - 1 ? l - b * (n - 1) : b));
+  S.walls[i].mods = ms; sel = null;
+}
+
+/* ---------- 3D preview ---------- */
+let renderer, controls; const scene = new THREE.Scene(), wardrobe = new THREE.Group(), camera = new THREE.PerspectiveCamera(38, 1, .1, 60);
+try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); } catch (e) { renderer = null; }
+if (renderer) {
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  scene.add(wardrobe, new THREE.HemisphereLight(0xffffff, 0x9a9086, .85));
+  const sun = new THREE.DirectionalLight(0xffffff, .8); sun.position.set(3, 6, 5); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048);
+  Object.assign(sun.shadow.camera, { left: -5, right: 5, top: 5, bottom: -5 }); sun.shadow.bias = -.0005; scene.add(sun);
+  const fl = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.ShadowMaterial({ opacity: .2 })); fl.rotation.x = -Math.PI / 2; fl.receiveShadow = true; scene.add(fl);
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
+  Object.assign(controls, { enableDamping: true, dampingFactor: .08, maxPolarAngle: Math.PI / 2 - .03, enablePan: false });
+  (function loop() { requestAnimationFrame(loop);
+    if (wardrobe.scale.x < .999) { wardrobe.scale.setScalar(wardrobe.scale.x + (1 - wardrobe.scale.x) * .2); dirty = true; }
+    if (controls.update() || dirty) { if (renderer.domElement.isConnected) renderer.render(scene, camera); dirty = false; } })();
+  new ResizeObserver(() => fit()).observe(document.body);
+}
+function fit() { const s = $('#stage'); if (!renderer || !s) return; renderer.setSize(s.clientWidth, s.clientHeight); camera.aspect = s.clientWidth / s.clientHeight; camera.updateProjectionMatrix(); dirty = true; }
+function build() {
+  if (!renderer) return;
+  wardrobe.traverse(o => o.geometry && o.geometry.dispose()); mats.forEach(m => m.dispose()); mats = []; wardrobe.clear();
+  const f = FINISH[S.finish], H = S.height / 1000, D = S.depth / 1000, t = .018, pl = .08, ch = H - pl, IH = S.height - 116, col = COLOURS.find(c => c.id === S.colour).c;
+  const M = (c, o) => { const m = new THREE.MeshStandardMaterial(Object.assign({ color: c, roughness: f.r, metalness: f.m }, o)); mats.push(m); return m; };
+  const body = M(col), dark = M('#2b2b2b', { metalness: .7, roughness: .35 }), doorM = M(col);
+  const box = (p, w, h, d, x, y, z, m) => { const me = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m); me.position.set(x, y, z); me.castShadow = me.receiveShadow = true; p.add(me); return me; };
+  for (let wi = 0; wi < nW(); wi++) {
+    const g = new THREE.Group(), L = len(wi) / 1000, u = usable(wi) / 1000, x0 = .032; let x = x0;
+    box(g, L, ch, .01, L / 2, pl + ch / 2, .005, body); box(g, L, t, D, L / 2, pl + t / 2, D / 2, body); box(g, L, t, D, L / 2, H - t / 2, D / 2, body); box(g, L - .04, pl, D - .06, L / 2, pl / 2, D / 2 - .02, dark);
+    box(g, t, ch, D, x, pl + ch / 2, D / 2, body);
+    S.walls[wi].mods.forEach(m => {
+      const w = m.w / 1000, cx = x + w / 2, p = parts(m, IH);
+      p.dr.forEach(d => { const df = box(g, w - .012, d.h / 1000, .02, cx, pl + t + (d.y + d.h / 2) / 1000, D - .03, body); if (S.handle !== 'none') box(df, .12, .012, .015, 0, 0, .017, dark); });
+      p.sh.forEach(v => box(g, w - t, t, D - .03, cx, pl + t + v / 1000, D / 2 - .01, body));
+      p.ra.forEach(v => { const r = new THREE.Mesh(new THREE.CylinderGeometry(.01, .01, w - t, 12), dark); r.rotation.z = Math.PI / 2; r.position.set(cx, pl + t + v / 1000, D / 2 - .02); r.castShadow = true; g.add(r); });
+      x += w; box(g, t, ch, D, x, pl + ch / 2, D / 2, body);
+    });
+    if (S.doors !== 'none') {
+      const dh = H - pl - .004, cy = pl + dh / 2 + .002, zb = D + .012;
+      const hdl = (door, dw, side) => { if (S.handle === 'none') return; const h = new THREE.Mesh(S.handle === 'bar' ? new THREE.CylinderGeometry(.008, .008, .3, 10) : new THREE.SphereGeometry(.02, 14, 10), dark); h.position.set(side * (dw / 2 - .05), 1 - cy, .03); h.castShadow = true; door.add(h); };
+      if (S.doors === 'sliding') {
+        const n = Math.max(2, Math.ceil(u / .9)), dw = u / n + .03, span = (u - dw) / (n - 1);
+        for (let i = 0; i < n; i++) hdl(box(g, dw, dh, .02, x0 + dw / 2 + i * span + (isOpen && i === 0 ? span * .95 : 0), cy, zb + (i % 2) * .025, doorM), dw, i < n - 1 ? 1 : -1);
+      } else {
+        const n = Math.ceil(u / .6), dw = u / n;
+        for (let i = 0; i < n; i++) {
+          const lf = i < n / 2, dir = lf ? 1 : -1, pv = new THREE.Group(); pv.position.set(x0 + (lf ? i * dw : (i + 1) * dw), 0, zb); pv.rotation.y = isOpen ? (lf ? -1.9 : 1.9) : 0; g.add(pv);
+          hdl(box(pv, dw - .004, dh, .02, dir * dw / 2, cy, 0, doorM), dw, -dir);
+        }
+      }
+    }
+    if (wi) { g.rotation.y = Math.PI / 2; g.position.set(0, 0, D + L); } // second wall runs along the left side
+    wardrobe.add(g);
+  }
+  const bb = new THREE.Box3().setFromObject(wardrobe), c = bb.getCenter(new THREE.Vector3()), sz = bb.getSize(new THREE.Vector3()), dist = Math.max(sz.x, sz.y, sz.z) * 1.6 + 1;
+  controls.target.copy(c); controls.minDistance = 1.2; controls.maxDistance = dist * 3; camera.position.set(c.x + dist * .5, c.y + dist * .2, c.z + dist * .9);
+  wardrobe.scale.setScalar(.94); dirty = true;
+}
+function capture() { // render a fixed-size snapshot regardless of the visible canvas size
+  if (!renderer) return ''; const pr = renderer.getPixelRatio();
+  renderer.setPixelRatio(1); renderer.setSize(960, 640, false); camera.aspect = 1.5; camera.updateProjectionMatrix(); renderer.render(scene, camera);
+  const u = renderer.domElement.toDataURL('image/png'); renderer.setPixelRatio(pr); fit(); return u;
+}
+
+/* ---------- Planner drawing ---------- */
+function modSvg(m, ih) {
+  const p = parts(m, ih), w = m.w, y = v => ih - v, vs = 'vector-effect="non-scaling-stroke"';
+  let s = `<svg viewBox="0 0 ${w} ${ih}" preserveAspectRatio="none">`;
+  p.dr.forEach(d => s += `<rect x="14" y="${y(d.y + d.h)}" width="${w - 28}" height="${d.h}" fill="#cfcfca" stroke="#aaa" ${vs}/>`);
+  p.sh.forEach(v => s += `<line x1="0" x2="${w}" y1="${y(v)}" y2="${y(v)}" stroke="#bdbdb6" stroke-width="1.5" ${vs}/>`);
+  p.ra.forEach(v => {
+    s += `<line x1="0" x2="${w}" y1="${y(v)}" y2="${y(v)}" stroke="#7d7d88" stroke-width="2" ${vs}/>`;
+    const n = Math.min(5, Math.floor((w - 80) / 190)), x0 = (w - (n - 1) * 190) / 2;
+    for (let k = 0; k < n; k++) { const cx = x0 + k * 190; s += `<polygon points="${cx},${y(v) + 15} ${cx - 75},${y(v) + 130} ${cx + 75},${y(v) + 130}" fill="none" stroke="#7d7d88" stroke-width="1.5" ${vs}/>`; }
+  });
+  return s + '</svg>';
+}
+function planner(i) {
+  const u = usable(i), H = S.height, l = left(i), ih = H - 116; let x = 0, h = '';
+  S.walls[i].mods.forEach(m => {
+    const on = sel && sel.id === m.id;
+    h += `<button class="mod${on ? ' on' : ''}" data-sel="${m.id}" data-wi="${i}" aria-label="${MODS[m.type].n}, ${m.w} mm" style="left:${x / u * 100}%;width:${m.w / u * 100}%">${modSvg(m, ih)}<span class="wp">${m.w}</span>${on ? '<b class="chk">✓</b>' : ''}</button>`; x += m.w;
+  });
+  if (l > 0) h += `<div class="gap" style="left:${x / u * 100}%;width:${l / u * 100}%"><button class="plus" data-add="${i}" aria-label="Add module">+</button></div>`;
+  const msg = l > 0 ? `${l} mm still open.` : l < 0 ? `${-l} mm over.` : 'Wall is full.';
+  return `<section class="pl"><div class="plh"><span>${wallName(i).toUpperCase()} PLANNER</span><span>${u} USABLE · ${used(i)} USED · ${Math.max(l, 0)} LEFT · ${Math.round(used(i) / u * 100)}%</span></div>
+  <div class="stagebox"><div class="plan" style="aspect-ratio:${u}/${H};width:min(100%,${Math.round(480 * u / H)}px)">${h}</div></div>
+  <div class="plf"><span>${msg}</span><span><button class="mini" data-auto="${i}">Auto-fill</button> ${l > 0 ? `<button class="mini dk" data-stretch="${i}">Stretch bays to fill ${l} mm</button>` : ''}</span></div></section>`;
+}
+const stepper = (k, l, v) => `<div class="sl2"><span>${l}</span><span><button class="mini" data-st="${k}" data-d="-1" aria-label="Fewer ${l}">−</button> <b>${v}</b> <button class="mini" data-st="${k}" data-d="1" aria-label="More ${l}">+</button></span></div>`;
+function drawEditor() {
+  const m = curMod(), el = $('#editor'); if (!el) return;
+  if (!m) { sel = null; el.innerHTML = '<p class="note">Select a module to adjust its width, drawers or shelves.</p>'; return; }
+  const d = MODS[m.type], mx = Math.min(d.max, m.w + Math.max(left(sel.wi), 0));
+  el.innerHTML = `<div class="ed"><div class="edh"><b>${d.n} · ${wallName(sel.wi)}</b><button class="mini" data-del="1">Delete</button></div>
+  <label class="sl">Width<b id="mwv">${m.w} mm</b><input type="range" data-mw="1" min="${d.min}" max="${mx}" step="1" value="${m.w}"></label>
+  ${d.maxDr ? stepper('drawers', 'Drawers', m.drawers) : ''}${d.sh ? stepper('shelves', 'Shelves', m.shelves) : ''}</div>`;
+}
+function drawPlanner(skipEditor) {
+  const el = $('#planner'); if (!el) return;
+  el.innerHTML = Array.from({ length: nW() }, (_, i) => planner(i)).join(''); if (!skipEditor) drawEditor(); setErr(issues()); updEst();
+}
+function setErr(list) { const e = $('#errbox'); if (e) e.innerHTML = list.length ? `<b>Fix these items before continuing</b>${list.map(x => `<p>${x}</p>`).join('')}` : ''; }
+function updEst() {
+  const ok = !issues().length, q = quote(), n = S.walls.slice(0, nW()).reduce((a, w) => a + w.mods.length, 0);
+  $('#est').innerHTML = `<div class="eic">▦</div>` + (ok ? `<b>Your estimate</b><div class="big">${CUR}${q.total.toLocaleString()}</div><small>${n} modules on ${nW()} wall${nW() > 1 ? 's' : ''}</small>` : `<b>Complete your design</b><small>Fill every wall with modules to unlock your instant estimate.</small>`);
+}
+
+/* ---------- Modal ---------- */
+function showModal(wi) {
+  const av = left(wi), card = t => { const d = MODS[t], ok = av >= d.min, w = Math.min(d.kind === 'tower' ? d.start : d.max, av);
+    return `<button class="mc${ok ? '' : ' off'}" ${ok ? `data-pick="${t}" data-wi="${wi}"` : 'disabled'}><div class="th-w"><div class="th">${modSvg({ type: t, w: 500, drawers: d.dr || 0, shelves: d.sh || 0 }, 2200)}</div></div><b>${d.n}</b><span>${d.d}</span><em>${ok ? 'Takes ' + w + ' mm' : `Needs ${d.min} mm, ${Math.max(av, 0)} mm left`}</em></button>`; };
+  const sec = (t, sub, l, r) => `<div class="mh2"><h5>${t}</h5><span>${r}</span></div><p class="note">${sub}</p><div class="mgrid">${l.map(card).join('')}</div>`;
+  const m = $('#modal'); m.hidden = false;
+  m.innerHTML = `<div class="dlg" role="dialog" aria-modal="true" aria-label="Add a module"><div class="dh"><div><h2>Add a module</h2><p>Pick what goes into the open space on the ${wallName(wi).toLowerCase()}.</p></div><span class="avail">${av} mm available</span><button class="x" data-close="1" aria-label="Close">×</button></div>
+  ${sec('TOWERS', 'Fixed-position units with drawers or shelves.', ['towerDS', 'towerS', 'drawHang', 'shelfHang'], '400-1200 mm, start at 500')}${sec('HANGING AND SHELVING', 'Open bays that stretch to use the width left over.', ['doubleHang', 'longHang'], '200-1200 mm, fill the space')}</div>`;
+}
+const closeModal = () => { $('#modal').hidden = true; };
+
+/* ---------- Step views ---------- */
+const optC = (k, v, t, s, sw) => `<button class="opt${S[k] === v ? ' on' : ''}" data-k="${k}" data-v="${v}">${sw ? `<i style="--sw:${sw}"></i>` : ''}<b>${t}</b>${s ? `<small>${s}</small>` : ''}</button>`;
+const grp = (t, h) => `<h3>${t}</h3><div class="grid">${h}</div>`;
+const slide = (k, l, min, max) => `<label class="sl">${l}<b id="v_${k}">${S[k]} mm</b><input type="range" data-s="${k}" min="${min}" max="${max}" step="10" value="${S[k]}"></label>`;
+const field = (k, l, type) => `<label>${l}<input class="tx" type="${type}" data-c="${k}" value="${S.contact[k]}" autocomplete="off"></label>`;
+function payload() {
+  const q = quote();
+  return { configId: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()), brand: BRAND, layout: S.layout, heightMm: S.height, depthMm: S.depth,
+    finish: { colour: S.colour, doors: S.doors, handle: S.handle, sheen: S.finish },
+    walls: S.walls.slice(0, nW()).map((w, i) => ({ name: wallName(i), lengthMm: len(i), usableMm: usable(i), modules: w.mods.map(m => ({ type: m.type, name: MODS[m.type].n, widthMm: m.w, drawers: m.drawers, shelves: m.shelves })) })),
+    quote: { ...q, currency: CUR }, contact: S.contact, snapshot: snap, createdAt: new Date().toISOString() };
+}
+const VIEWS = [
+  () => grp('Layout', optC('layout', 'straight', 'Straight wall', 'One run of modules on a back wall.') + optC('layout', 'l', 'L-shape', 'A back wall plus a left side wall.')),
+  () => slide('backLen', 'Back wall length', 1500, 4500) + (S.layout === 'l' ? slide('sideLen', 'Left wall length', 1200, 4000) : '') + slide('height', 'Height', 2000, 2800) + slide('depth', 'Depth', 400, 700) + '<p class="note">Usable length is the wall length less 64 mm for end gaps.</p>',
+  () => grp('Colour', COLOURS.map(c => optC('colour', c.id, c.n, '', c.c)).join('')) + grp('Doors', optC('doors', 'none', 'No doors', 'Open fronts') + optC('doors', 'hinged', 'Hinged') + optC('doors', 'sliding', 'Sliding')) +
+    grp('Handles', optC('handle', 'bar', 'Bar') + optC('handle', 'knob', 'Knob') + optC('handle', 'none', 'Push-open')) + grp('Sheen', Object.keys(FINISH).map(k => optC('finish', k, k[0].toUpperCase() + k.slice(1))).join('')),
+  () => '<div id="planner"></div><div id="editor"></div>',
+  () => { const q = quote(); return `<div id="stage">${renderer ? '' : '<p style="padding:40px">WebGL is not available, so the 3D preview cannot load.</p>'}</div><p class="note">Drag to rotate · scroll or pinch to zoom</p><button class="btn gh" data-open="1">${isOpen ? 'Close doors' : 'Open doors'}</button>
+    <table><tr><td>Modules</td><td>${CUR}${q.modules.toLocaleString()}</td></tr><tr><td>Doors</td><td>${CUR}${q.doors.toLocaleString()}</td></tr><tr><td>Installation</td><td>${CUR}${q.install}</td></tr><tr><td>Estimate</td><td>${CUR}${q.total.toLocaleString()}</td></tr></table><p class="note">Placeholder pricing for demo purposes.</p>`; },
+  () => field('name', 'Full name', 'text') + field('email', 'Email', 'email') + field('phone', 'Phone (optional)', 'tel'),
+  () => { const p = payload(), shown = JSON.stringify({ ...p, snapshot: snap ? 'data:image/png;base64,…' : '' }, null, 2);
+    const rows = [['Layout', S.layout === 'l' ? 'L-shape' : 'Straight wall'], ...p.walls.map(w => [w.name, `${w.lengthMm} mm · ${w.modules.length} modules`]), ['Height × depth', `${S.height} × ${S.depth} mm`],
+      ['Finish', `${COLOURS.find(c => c.id === S.colour).n}, ${S.finish}`], ['Doors', S.doors], ['Handles', S.handle], ['Contact', `${S.contact.name} · ${S.contact.email}`], ['Estimate', CUR + p.quote.total.toLocaleString()]];
+    return (snap ? `<img id="snap" alt="Snapshot of your design" src="${snap}">` : '') + `<table>${rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</table><pre>${shown}</pre>
+    <button class="btn gh" data-copy="1">Copy JSON</button> <button class="btn" data-submit="1">Submit request</button><p class="note" id="status"></p>`; }];
+
+function render() {
+  $('#prog').innerHTML = STEPS.map((s, i) => `<button class="st${i === step ? ' on' : ''}${i > reached ? ' lock' : ''}" data-go="${i}" ${i > reached ? 'disabled' : ''} ${i === step ? 'aria-current="step"' : ''}><span class="ci">${i < step ? '✓' : i + 1}</span><span><b>${s}</b><small>${i < step ? 'COMPLETED' : i === step ? 'ACTIVE' : 'UPCOMING'}</small></span></button>`).join('');
+  if (step === 6) { build(); snap = capture(); }
+  const last = step === STEPS.length - 1;
+  $('#content').innerHTML = `<span class="pill0">STEP ${step + 1}</span><h1>${TITLES[step]}</h1><p class="sub">${SUBS[step]}</p><div id="errbox"></div>${VIEWS[step]()}
+    <div class="nav"><button class="btn gh" data-back="1" ${step ? '' : 'disabled'}>Back</button>${last ? '' : `<button class="btn" data-next="1">${step === 3 ? 'Continue to preview' : 'Continue'}</button>`}</div>`;
+  setErr(errors); updEst();
+  if (step === 3) drawPlanner();
+  if (step === 4) { build(); if (renderer) { $('#stage').prepend(renderer.domElement); fit(); } }
+}
+function next() {
+  let e = []; if (step === 3) e = issues();
+  if (step === 5) { if (!S.contact.name.trim()) e.push('Please enter your name.'); if (!/^\S+@\S+\.\S+$/.test(S.contact.email)) e.push('Please enter a valid email address.'); }
+  errors = e; if (e.length) { setErr(e); return; }
+  step++; reached = Math.max(reached, step); errors = []; render(); $('#main').scrollTop = 0;
+}
+
+/* ---------- Events ---------- */
+document.addEventListener('click', e => {
+  if (e.target.id === 'modal') return closeModal();
+  const b = e.target.closest('button'); if (!b) return; const d = b.dataset;
+  if ('go' in d) { if (+d.go <= reached) { step = +d.go; errors = []; render(); } }
+  else if ('k' in d) { S[d.k] = d.v; render(); }
+  else if ('add' in d) showModal(+d.add);
+  else if ('pick' in d) { const t = MODS[d.pick], wi = +d.wi, m = mk(d.pick, Math.min(t.kind === 'tower' ? t.start : t.max, left(wi))); S.walls[wi].mods.push(m); sel = { wi, id: m.id }; closeModal(); drawPlanner(); }
+  else if ('sel' in d) { sel = { wi: +d.wi, id: +d.sel }; drawPlanner(); }
+  else if ('close' in d) closeModal();
+  else if ('del' in d) { const a = S.walls[sel.wi].mods; a.splice(a.findIndex(x => x.id === sel.id), 1); sel = null; drawPlanner(); }
+  else if ('st' in d) { const m = curMod(); m[d.st] = Math.max(0, Math.min(d.st === 'drawers' ? MODS[m.type].maxDr : 8, m[d.st] + +d.d)); drawPlanner(); }
+  else if ('stretch' in d) { const ok = stretch(+d.stretch); drawPlanner(); if (!ok) setErr(issues().concat('Stretching needs a hanging bay narrower than 1200 mm.')); }
+  else if ('auto' in d) { autofill(+d.auto); drawPlanner(); }
+  else if ('next' in d) next();
+  else if ('back' in d) { step--; errors = []; render(); }
+  else if ('open' in d) { isOpen = !isOpen; b.textContent = isOpen ? 'Close doors' : 'Open doors'; build(); }
+  else if ('copy' in d) navigator.clipboard.writeText(JSON.stringify(payload(), null, 2)).then(() => $('#status').textContent = 'JSON copied.', () => $('#status').textContent = 'Copy failed. Select the JSON manually.');
+  else if ('submit' in d) submit();
+});
+document.addEventListener('input', e => {
+  const t = e.target, d = t.dataset;
+  if (d.s) { S[d.s] = +t.value; $('#v_' + d.s).textContent = t.value + ' mm'; }
+  else if (d.c) S.contact[d.c] = t.value;
+  else if (d.mw) { const m = curMod(); m.w = +t.value; $('#mwv').textContent = m.w + ' mm'; drawPlanner(true); }
+});
+document.addEventListener('change', e => { if (e.target.dataset.mw) drawEditor(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+async function submit() {
+  const st = $('#status'), p = payload();
+  if (!CHECKOUT_URL) { console.log('Request payload', p); st.textContent = 'No endpoint set (CHECKOUT_URL). Payload logged to the console.'; return; }
+  try { const r = await fetch(CHECKOUT_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(p) }); st.textContent = r.ok ? 'Sent. Thank you!' : 'The API returned ' + r.status; }
+  catch (err) { st.textContent = 'Could not reach the API.'; }
+}
+render();
+</script>
+</body>
+</html>
